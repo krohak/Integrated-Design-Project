@@ -12,7 +12,7 @@ The Smart Home system consists of 5 main components:
 - Smart Door Lock
 - Solar Panel + Automatic Light Tracker
 
-In addition to all of the above, A Raspberry Pi control center was added to run a smart miror ([MagicMirror](https://github.com/MichMich/MagicMirror)) to monitor the 
+In addition to all of the above, A Raspberry Pi control center was added to run a Smart Miror ([MagicMirror](https://github.com/MichMich/MagicMirror)) to monitor the 
 home at our own convenience.
 
 
