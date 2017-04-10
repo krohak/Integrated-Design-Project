@@ -14,3 +14,6 @@ The Smart Home system consists of 5 main components:
 
 In addition to all of the above, A Raspberry Pi control center was added to run a smart miror ([MagicMirror](https://github.com/MichMich/MagicMirror)) to monitor the 
 home at our own convenience.
+
+
+![Network](https://raw.githubusercontent.com/krohak/Integrated-Design-Project/master/Network.jpg)
