@@ -1,0 +1,37 @@
+{
+	"bridge": {
+		"name": "mirror Homebridge",
+		"username": "CD:22:3D:E3:CE:30",
+		"port": 51826,
+		"pin": "031-45-156"
+	},
+
+	"description": "Smart Lamp and Sensor Demo",
+
+	"accessories": [
+		{
+			"accessory": "Http",
+			"name": "Lamp",
+   			"switchHandling": "realtime",
+   			"http_method": "GET",
+   			"on_url":      "http://localhost/bedroom/lamp/on",
+   			"off_url":     "http://localhost/bedroom/lamp/off",
+   			"status_url":  "http://localhost/bedroom/lamp",
+   			"service": "Light",
+   			"brightnessHandling": "yes",
+			"brightness_url":     "http://localhost/brightness/%b",
+                        "brightnesslvl_url":  "http://localhost/bedroom/lamp/100054",
+   			"sendimmediately": ""			
+		},
+		  {
+               "accessory": "Thermostat",
+               "name": "Thermostat Demo",
+               "apiroute": "http://localhost/weather",
+		"setTemperatureDisplayUnits":"1",
+               "maxTemp": 29,
+               "minTemp": 23
+
+           }
+		
+	]
+}
