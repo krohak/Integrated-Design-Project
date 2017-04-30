@@ -14,6 +14,15 @@ br = 50
 target = 23
 #msg=serialArduino.readline()
 
+def get_data():
+	serialArduino.write("s")
+	if (serialArduino.inWaiting() > 0):
+		try:
+			msg=json.loads(serialArduino.readline())
+			return msg
+		except Exception,e:
+			print(e)
+
 def lamp_on():
 	print("Lamp is turned ON")
 	lamp = 1
@@ -43,12 +52,10 @@ def read_brightness():
 	return str(br)
 
 def read_weather():
-        #temp=sense.get_temperature()
-        #hum=sense.get_humidity()
-        temp=27
-        hum=45
+	msg=get_data()
+	temp=msg["temp"]
+	hum=msg["hum"]
 	weather={ "targetHeatingCoolingState":3,"targetTemperature":target,"targetRelativeHumidity":55.0, "currentHeatingCoolingState":2, "currentTemperature": temp, "currentRelativeHumidity": hum, "getTemperatureDisplayUnits": 1}
-        #weather={ "temperature": temp,"humidity": hum }
         return(weather)
 
 def set_temp(level):
@@ -101,8 +108,8 @@ class TempHandler(tornado.web.RequestHandler):
 	def get(self,action):
         	if action=="/status":                
 			try:
-                            	self.write(read_weather())			
-                        except Exception as e:
+				self.write(read_weather())
+			except Exception as e:
                                 print("hi")
                                 print(e)
 		
@@ -128,6 +135,27 @@ class TempHandler(tornado.web.RequestHandler):
 		
 		
 
+class MirrorHandler(tornado.web.RequestHandler):
+        def get(self, action):
+		msg=get_data()	
+		if action == "/celsius":
+			temp=msg["temp"]
+			self.write(str(temp))
+		elif action == "/humidity":
+			hum=int(msg["hum"])
+			self.write(str(hum))
+		elif action =="/target":
+			tar=float(int(msg["targettemp"])/100)
+			#tar=msg["targettemp"]
+			self.write(str(target))
+		elif action =="/bright":
+			self.write(str(msg["current"]))
+		elif action =="/max":
+                        self.write(str(msg["max"]))
+			
+
+
+
 
 
 
@@ -136,6 +164,7 @@ def make_app():
 		(r"/bedroom(.*)", LampHandler),
 		(r"/brightness/(\d+)",BrightnessHandler),
 		(r"/weather(.*)",TempHandler),
+		(r"/mirror(.*)",MirrorHandler),
 	])
 
 if __name__ == "__main__":
