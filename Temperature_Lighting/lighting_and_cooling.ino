@@ -58,7 +58,7 @@ float fconsKi = 5;           // integral term
 float fconsKd = 3; 
 
 long previousMillis = 0;
-long interval = 3000; 
+long interval = 1000; 
 
 Adafruit_HTU21DF htu = Adafruit_HTU21DF();
 
@@ -84,15 +84,15 @@ void setup()
   TIMSK2 |= (1 << OCIE2A); //compare match A interrupt enable
   interrupts();
 
-  Serial.println("HTU21D-F test");
+ // Serial.println("HTU21D-F test");
 pinMode(temp_control, OUTPUT);
  // pinMode(tempC,INPUT);
   digitalWrite(temp_control,LOW);
   if (!htu.begin()) {
-    Serial.println("Couldn't find sensor!");
+    //Serial.println("Couldn't find sensor!");
     while (1);
   }
-   Serial.println("HKU EEE IDP Lab 1");
+   //Serial.println("HKU EEE IDP Lab 1");
 
 }
 
@@ -174,23 +174,33 @@ void loop()
 //} 
 
 
- unsigned long currentMillis = millis();
+// unsigned long currentMillis = millis();
  
- if(currentMillis - previousMillis > interval) {
+// if(currentMillis - previousMillis > interval) {
+ if(kc=='s') {
  
  /*Serial.print(htu.readTemperature());
  Serial.print("\t\t");
   Serial.println(PWM_Power);
   Serial.println(htu.readHumidity());*/
-  
-  Serial.print("{\"lamp\":");
+ 
+  Serial.print("{\"current\":");
+  Serial.print(int_PWMLED);
+  Serial.print(",\"max\":");
   Serial.print(PWM_MAX);
-   Serial.print(",\"weather\":{\"temp\":");
+   Serial.print(",\"temp\":");
   Serial.print(tempCC);
+  Serial.print(",\"hum\":");
+  Serial.print(htu.readHumidity());
+  Serial.print(",\"targettemp\":");
+  Serial.print(temp_ref);
+  Serial.print(",\"fanspeed\":");
+  Serial.print(PWM_Power);
+   Serial.println("}");
+  //{"lamp":{"current":"PWM_led","max":"(PWM_MAX)"},"weather":{"temp":"","hum":"","targettemp":"","fanspeed":""}}
   
-  //{"lamp":"brightness(PWM_MAX)","weather":{"temp":"","hum":"","targettemp":"","fanspeed":""}}
-  
-  previousMillis = currentMillis; 
+  //previousMillis = currentMillis;
+ kc='o'; 
  }
 
   adc_task();
