@@ -6,7 +6,7 @@ import base64
 import time
 import os
 
-port = "/dev/ttyACM0"
+port = "/dev/ttyACM1"
 t1=time.time()
 
 serialFromArduino = serial.Serial(port,9600)

@@ -53,9 +53,9 @@ int temp_ref = 2600;
 double fe_k0 = 0, fe_k1 = 0, fe_k2=0;
 double fhysBand = 0.005;
 double PWM_Power = 0;
-float fconsKp = 10;          // proportional term 
-float fconsKi = 5;           // integral term
-float fconsKd = 3; 
+float fconsKp = 6;          // proportional term 
+float fconsKi = 3;           // integral term
+float fconsKd = 1; 
 
 long previousMillis = 0;
 long interval = 1000; 
@@ -174,7 +174,7 @@ void loop()
 //} 
 
 
-// unsigned long currentMillis = millis();
+//
  
 // if(currentMillis - previousMillis > interval) {
  if(kc=='s') {
