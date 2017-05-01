@@ -30,7 +30,7 @@ var config = {
                                      "module": "googlemap",
                                      "position": "top_left",
                                      "config": {
-                                             "apikey": "AIzaSyB87PjoPJY8-itJtBcVDQsCmRFPU9O6TrE",
+                                             "apikey": "api_key",
                                              "origin": "kennedy town",
                                              "destination": "hku"
                                      }
