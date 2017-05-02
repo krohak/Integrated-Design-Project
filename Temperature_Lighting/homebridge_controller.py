@@ -4,15 +4,17 @@ import serial
 import requests
 import json
 import re
+import time
 
-port = "/dev/ttyACM0"
+port = "/dev/ttyACM1"
 serialArduino = serial.Serial(port,9600)
 serialArduino.flushInput()
 
 lamp = 0
-br = 50
+br = 100
 target = 23
 #msg=serialArduino.readline()
+t1=time.time()
 
 def get_data():
 	serialArduino.write("s")
@@ -25,18 +27,21 @@ def get_data():
 
 def lamp_on():
 	print("Lamp is turned ON")
+	global lamp
 	lamp = 1
 	serialArduino.write("n"+str(br))
 
 
 def lamp_off():
 	print("Lamp is turned OFF")
+	global lamp
 	lamp = 0
 	serialArduino.write("n0")
 
 
 
 def read_lamp():
+	global lamp
 	return str(lamp)
 
 def lamp_brightness(percent):
@@ -128,6 +133,10 @@ class TempHandler(tornado.web.RequestHandler):
 		elif action=="/auto":
 			print("auto")
 			set_temp(target)
+		
+		elif action=="/no-frost":
+			print("coolest")
+			serialArduino.write("t"+str(23))
 	
 		else:
 			print("ok1")
@@ -152,11 +161,15 @@ class MirrorHandler(tornado.web.RequestHandler):
 			self.write(str(msg["current"]))
 		elif action =="/max":
                         self.write(str(msg["max"]))
-			
-
-
-
-
+		elif action == "/speed":
+			self.write(str(msg["fanspeed"]))
+		
+		global t1
+		if((time.time()-t1)>120):	
+			data={"api_key":"key","field1":msg["temp"],"field2":msg["hum"],"field3":msg["current"],"field4":msg["fanspeed"]}
+			req = requests.post("https://api.thingspeak.com/update", data=data)
+			t1=time.time()
+			print("done")
 
 
 def make_app():

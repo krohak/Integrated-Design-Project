@@ -30,7 +30,7 @@ var config = {
                                      "module": "googlemap",
                                      "position": "top_left",
                                      "config": {
-                                             "apikey": "api_key",
+                                             "apikey": "key",
                                              "origin": "kennedy town",
                                              "destination": "hku"
                                      }
@@ -104,7 +104,10 @@ var config = {
                     format: '%d',
                     url: 'http://localhost/mirror/max',
                 },
-
+		{
+                    format: '%d',
+                    url: 'http://localhost/mirror/speed',
+                },
             ],
             output: [
                 ['Temperature','@1'],
@@ -112,10 +115,10 @@ var config = {
 		['TargetTemperature','@6'],
 		['CurrentBrightness','@7'],
 		['MaxBrightness','@8'],
-                ['Kitchen','@3','@4'],
-                ['Fridge','@5'],
+                ['Fanspeed','@9'],
             ],
-		updateInterval:"5000"
+		updateInterval:"3000",
+		animationSpeed:"2500"
 	    },
 	}
 	],
