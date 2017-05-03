@@ -144,13 +144,17 @@ if (cam.motionDetected()) {
    // Serial.println("Picture taken!");
   
   // Create an image with the name IMAGExx.JPG
-  char filename[13];
-  strcpy(filename, "IMAGE00.JPG");
-  for (int i = 0; i < 100; i++) {
-    filename[5] = '0' + i/10;
-    filename[6] = '0' + i%10;
+  char filename[14];
+  strcpy(filename, "IMAGE000.JPG");
+  for (int i = 0; i < 1000; i++) {
+    filename[5] = '0' + i/100;
+    //filename[6] = '0' + i%100;
+    int q = i%100;
+    filename[6] = '0' + q/10;
+    filename[7] = '0' + q%10;
     // create if does not exist, do not open existing, write, sync after write
     if (! SD.exists(filename)) {
+      //Serial.println(filename);
       break;
     }
   }
