@@ -6,7 +6,7 @@ import json
 import re
 import time
 
-port = "/dev/ttyACM1"
+port = "/dev/ttyACM0"
 serialArduino = serial.Serial(port,9600)
 serialArduino.flushInput()
 
@@ -158,11 +158,11 @@ class MirrorHandler(tornado.web.RequestHandler):
 			#tar=msg["targettemp"]
 			self.write(str(target))
 		elif action =="/bright":
-			self.write(str(msg["current"]))
+			self.write(str((int(msg["current"])*100)/25500))
 		elif action =="/max":
-                        self.write(str(msg["max"]))
+			self.write(str((int(msg["max"])*100)/25500))
 		elif action == "/speed":
-			self.write(str(msg["fanspeed"]))
+			self.write(str((int(msg["fanspeed"])*100)/25500))
 		
 		global t1
 		if((time.time()-t1)>120):	
